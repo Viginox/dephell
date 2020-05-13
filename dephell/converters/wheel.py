@@ -128,7 +128,9 @@ class _Writer:
                     for full_path in package:
                         self._write_file(
                             archive=archive,
-                            path='/'.join(full_path.relative_to(project.package.path).parts),
+                            path='/'.join(
+                                full_path.relative_to(project.package.path.joinpath(
+                                    project.package.package_dir[''])).parts),
                             fpath=full_path,
                         )
 
