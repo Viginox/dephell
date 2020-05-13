@@ -65,5 +65,5 @@ class ProjectBuildCommand(BaseCommand):
                 project=resolver.graph.metainfo,
             )
 
-        self.logger.info('builded')
+        self.logger.info('built')
         return True
