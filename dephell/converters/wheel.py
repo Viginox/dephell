@@ -130,7 +130,7 @@ class _Writer:
                             archive=archive,
                             path='/'.join(
                                 full_path.relative_to(project.package.path.joinpath(
-                                    project.package.package_dir[''])).parts),
+                                    project.package.package_dir.get('',""))).parts),
                             fpath=full_path,
                         )
 
