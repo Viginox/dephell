@@ -125,12 +125,17 @@ class _Writer:
 
                 # write packages
                 for package in chain(project.package.packages, project.package.data):
+                    # get the correct directory for the package
+                    if len(project.package.package_dir.keys()) == 0:
+                        package_dir = "."
+                    else:
+                        package_dir = list(project.package.package_dir.values())[0]
                     for full_path in package:
                         self._write_file(
                             archive=archive,
                             path='/'.join(
                                 full_path.relative_to(project.package.path.joinpath(
-                                    project.package.package_dir.get('',""))).parts),
+                                    package_dir)).parts),
                             fpath=full_path,
                         )
 

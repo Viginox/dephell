@@ -13,6 +13,10 @@ def test_load_deps(requirements_path: Path):
     assert set(deps) == {'attrs', 'cached-property', 'packaging', 'requests'}
 
 
+def test_src_path(requirements_path: Path):
+    loader = WheelConverter()
+
+
 def test_load_metadata(requirements_path: Path):
     loader = WheelConverter()
     path = requirements_path / 'wheel.whl'
