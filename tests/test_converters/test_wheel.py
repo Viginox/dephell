@@ -51,7 +51,7 @@ packages = [
 [tool.dephell.main]
 from = {{format = "poetry", path = "pyproject.toml"}}
 to = {{format = "setuppy", path = "setup.py"}}
-            """.format(packages=packages)
+            """.format(packages=packages),
         )
 
 
@@ -66,7 +66,7 @@ to = {{format = "setuppy", path = "setup.py"}}
      ('wheel_gen/__init__.py', 'wheel_gen/test.py')],  # package_dir = {'': 'src'}
 ])
 def test_dump(files, use_src, expected, tmp_path, requirements_path: Path):
-    project_name = "wheel_gen"
+    project_name = 'wheel_gen'
     project_path = tmp_path / project_name
     project_path.mkdir()
     # generate project structure in temporary directory
@@ -76,7 +76,7 @@ def test_dump(files, use_src, expected, tmp_path, requirements_path: Path):
             path.parent.mkdir(parents=True, exist_ok=True)
         path.touch()
 
-    _write_pyproject_toml(tmp_path / "pyproject.toml", use_src)
+    _write_pyproject_toml(tmp_path / 'pyproject.toml', use_src)
 
     dist_path = Path('dist')
 
@@ -84,7 +84,7 @@ def test_dump(files, use_src, expected, tmp_path, requirements_path: Path):
 
     # Run the wheel generation
     root = RootDependency(
-        package=RootPackage(project_path)
+        package=RootPackage(project_path),
     )
     # get the requirements from the project path
     reqs = Requirement.from_graph(Graph(root), lock=False)
@@ -97,7 +97,7 @@ def test_dump(files, use_src, expected, tmp_path, requirements_path: Path):
         project=root,
     )
 
-    with ZipFile(project_path.joinpath(to_path), 'r') as wheel_file:
+    with ZipFile(project_path.joinpath(to_path).as_posix(), 'r') as wheel_file:
         print(wheel_file.namelist())
 
         # assert that all required files are in the correct place
