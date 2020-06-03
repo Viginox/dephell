@@ -125,17 +125,21 @@ class _Writer:
 
                 # write packages
                 for package in chain(project.package.packages, project.package.data):
-                    # get the correct directory for the package
-                    if len(project.package.package_dir.keys()) == 0:
-                        package_dir = "."
+                    # get the package name
+                    if package.module in project.package.package_dir.keys():
+                        package_name = package.module
+                    # if the name is not in the dictionary keys, we default to the first entry
+                    # this should never fail because dephell generates it automatically
                     else:
-                        package_dir = list(project.package.package_dir.values())[0]
+                        package_name = list(project.package.package_dir.keys())[0]
+                    # get the relative path for the package root
+                    package_dir = project.package.package_dir[package_name]
                     for full_path in package:
+                        package_path = '/'.join([package_name.replace('.', '/')] + list(
+                            full_path.relative_to(project.package.path / package_dir).parts))
                         self._write_file(
                             archive=archive,
-                            path='/'.join(
-                                full_path.relative_to(project.package.path.joinpath(
-                                    package_dir)).parts),
+                            path=package_path,
                             fpath=full_path,
                         )
 
